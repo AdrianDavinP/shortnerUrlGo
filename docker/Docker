@@ -1,0 +1,17 @@
+FROM golang:1-alpine
+
+# Add your own Github username
+ENV APP_DIR $GOPATH/src/mraladin/shortnerUrl
+
+ADD . $APP_DIR
+WORKDIR $APP_DIR
+
+RUN apk --update add git && rm -rf /var/cache/apk/*
+
+ .
+RUN go get -u github.com/kataras/iris && \
+    go get -u gopkg.in/redis.v4 && \
+    go get -u github.com/codegangsta/gin
+
+EXPOSE 3000
+CMD gin run
